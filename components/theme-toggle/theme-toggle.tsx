@@ -19,6 +19,9 @@ type ViewTransitionAnimationOptions = KeyframeAnimationOptions & {
 };
 
 const THEME_STORAGE_KEY = "mid-ui-theme";
+const THEME_CHANGE_EVENT = "mid-ui:theme-change";
+const THEME_TRANSITION_START_EVENT = "mid-ui:theme-transition-start";
+const THEME_TRANSITION_END_EVENT = "mid-ui:theme-transition-end";
 
 function isTheme(value: string | undefined | null): value is Theme {
   return value === "light" || value === "dark";
@@ -58,6 +61,7 @@ function syncToggleState(button: HTMLButtonElement | null, theme: Theme) {
 function applyTheme(theme: Theme, button: HTMLButtonElement | null) {
   document.documentElement.dataset.theme = theme;
   syncToggleState(button, theme);
+  window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
 
   try {
     localStorage.setItem(THEME_STORAGE_KEY, theme);
@@ -135,10 +139,20 @@ export function ThemeToggle() {
     isTransitioningRef.current = true;
     waveAnimationRef.current?.cancel();
     waveAnimationRef.current = null;
+    window.dispatchEvent(new Event(THEME_TRANSITION_START_EVENT));
 
-    const transition = transitionDocument.startViewTransition(() => {
+    let transition: ViewTransitionLike;
+
+    try {
+      transition = transitionDocument.startViewTransition(() => {
+        applyTheme(nextTheme, button);
+      });
+    } catch {
+      window.dispatchEvent(new Event(THEME_TRANSITION_END_EVENT));
+      isTransitioningRef.current = false;
       applyTheme(nextTheme, button);
-    });
+      return;
+    }
 
     void transition.ready
       .then(() => {
@@ -167,6 +181,7 @@ export function ThemeToggle() {
       waveAnimationRef.current?.cancel();
       waveAnimationRef.current = null;
       isTransitioningRef.current = false;
+      window.dispatchEvent(new Event(THEME_TRANSITION_END_EVENT));
     };
 
     void transition.finished.then(
