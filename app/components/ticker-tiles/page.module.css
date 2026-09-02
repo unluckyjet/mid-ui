@@ -1,0 +1,116 @@
+.page {
+  --page-ink: #20221e;
+  --page-muted: #69685e;
+  --page-rule: rgb(49 51 44 / 16%);
+  min-height: 100svh;
+  padding: 0 clamp(1rem, 3vw, 2.5rem) clamp(3rem, 7vw, 6rem);
+  color: var(--page-ink);
+  background:
+    linear-gradient(90deg, transparent 0 49.9%, rgb(50 47 39 / 4%) 50%, transparent 50.1%),
+    #f4f1e8;
+}
+
+.header {
+  min-height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--page-rule);
+}
+
+.brand {
+  color: inherit;
+  font-size: clamp(1rem, 1.6vw, 1.18rem);
+  letter-spacing: -0.025em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.brand:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.intro {
+  width: min(100%, 75rem);
+  display: grid;
+  grid-template-columns: clamp(3.5rem, 8vw, 7.5rem) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: end;
+  padding: clamp(3rem, 8vw, 7rem) 0 clamp(2.2rem, 5vw, 4.5rem);
+  margin: 0 auto;
+}
+
+.introIndex {
+  padding-bottom: 0.35rem;
+  color: #9b7c40;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 5vw, 4.4rem);
+  font-style: italic;
+  line-height: 0.8;
+}
+
+.eyebrow {
+  margin: 0 0 0.85rem;
+  color: var(--page-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.intro h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3rem, 9vw, 7.8rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.86;
+}
+
+.description {
+  max-width: 38rem;
+  margin: clamp(1.4rem, 3vw, 2.25rem) 0 0;
+  color: var(--page-muted);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.55;
+}
+
+.specimen {
+  width: min(100%, 75rem);
+  margin: 0 auto;
+}
+
+:global(html[data-theme="dark"]) .page {
+  --page-ink: #f0ede2;
+  --page-muted: #aaa99f;
+  --page-rule: rgb(220 226 240 / 14%);
+  background:
+    linear-gradient(90deg, transparent 0 49.9%, rgb(190 204 232 / 4%) 50%, transparent 50.1%),
+    #080c13;
+}
+
+:global(html[data-theme="dark"]) .introIndex {
+  color: #94a8d2;
+}
+
+@media (max-width: 640px) {
+  .page {
+    background: #f4f1e8;
+  }
+
+  .intro {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+
+  .introIndex {
+    font-size: 1.5rem;
+  }
+
+  :global(html[data-theme="dark"]) .page {
+    background: #080c13;
+  }
+}
