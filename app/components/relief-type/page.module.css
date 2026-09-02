@@ -1,0 +1,80 @@
+.page {
+  --paper: #e9e5db;
+  --ink: #252730;
+  --quiet: #62646b;
+  --rule: rgba(37, 39, 48, 0.2);
+  min-block-size: 100svh;
+  padding: 28px clamp(20px, 4vw, 64px) 56px;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, transparent 49.8%, rgba(55, 59, 79, 0.055) 50%, transparent 50.2%),
+    radial-gradient(circle at 72% 18%, rgba(96, 114, 164, 0.15), transparent 34%),
+    var(--paper);
+}
+
+:global(html[data-theme="dark"]) .page {
+  --paper: #111520;
+  --ink: #f1f0e7;
+  --quiet: #a9abb6;
+  --rule: rgba(235, 236, 243, 0.17);
+  background:
+    linear-gradient(90deg, transparent 49.8%, rgba(159, 174, 224, 0.07) 50%, transparent 50.2%),
+    radial-gradient(circle at 72% 18%, rgba(80, 100, 179, 0.2), transparent 36%),
+    var(--paper);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-block-end: 16px;
+  border-block-end: 1px solid var(--rule);
+  color: var(--quiet);
+  font: 700 0.7rem/1.2 var(--font-space-mono), monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.back { color: var(--ink); text-decoration: none; }
+.back:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(240px, 0.7fr);
+  gap: clamp(28px, 8vw, 110px);
+  align-items: end;
+  padding-block: clamp(54px, 8vw, 110px) clamp(40px, 6vw, 78px);
+}
+
+.eyebrow {
+  margin: 0 0 18px;
+  color: #526796;
+  font: 700 0.72rem/1 var(--font-space-mono), monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+:global(html[data-theme="dark"]) .eyebrow { color: #9ca8e8; }
+
+.intro h1 {
+  margin: 0;
+  font-size: clamp(3.2rem, 8vw, 8rem);
+  font-weight: 900;
+  letter-spacing: -0.075em;
+  line-height: 0.78;
+}
+
+.copy {
+  max-inline-size: 34rem;
+  margin: 0;
+  color: var(--quiet);
+  font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+  line-height: 1.65;
+}
+
+@media (max-width: 720px) {
+  .page { padding-inline: 18px; }
+  .intro { grid-template-columns: 1fr; gap: 28px; }
+  .intro h1 { font-size: clamp(3rem, 18vw, 5.2rem); }
+  .copy { max-inline-size: 28rem; }
+}
