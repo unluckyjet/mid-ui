@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import styles from "./theme-toggle.module.css";
 
 type Theme = "light" | "dark";
@@ -20,8 +20,44 @@ type ViewTransitionAnimationOptions = KeyframeAnimationOptions & {
 
 const THEME_STORAGE_KEY = "mid-ui-theme";
 
-function applyTheme(theme: Theme) {
+function isTheme(value: string | undefined | null): value is Theme {
+  return value === "light" || value === "dark";
+}
+
+function resolveTheme(): Theme {
+  try {
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+
+    if (isTheme(savedTheme)) {
+      return savedTheme;
+    }
+  } catch {
+    // Fall through to the DOM and system preferences.
+  }
+
+  const documentTheme = document.documentElement.dataset.theme;
+
+  if (isTheme(documentTheme)) {
+    return documentTheme;
+  }
+
+  return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function syncToggleState(button: HTMLButtonElement | null, theme: Theme) {
+  if (!button) {
+    return;
+  }
+
+  const targetTheme = theme === "dark" ? "light" : "dark";
+
+  button.setAttribute("aria-checked", String(theme === "dark"));
+  button.title = `Switch to ${targetTheme} theme`;
+}
+
+function applyTheme(theme: Theme, button: HTMLButtonElement | null) {
   document.documentElement.dataset.theme = theme;
+  syncToggleState(button, theme);
 
   try {
     localStorage.setItem(THEME_STORAGE_KEY, theme);
@@ -53,37 +89,14 @@ function readWaveEasing() {
 
 export function ThemeToggle() {
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const waveRef = useRef<HTMLSpanElement>(null);
   const isTransitioningRef = useRef(false);
 
-  function runFallbackWave(
-    nextTheme: Theme,
-    originX: number,
-    originY: number,
-    radius: number,
-  ) {
-    const wave = waveRef.current;
+  useLayoutEffect(() => {
+    const theme = resolveTheme();
 
-    if (!wave) {
-      applyTheme(nextTheme);
-      return;
-    }
-
-    const duration = readWaveDuration();
-    wave.dataset.targetTheme = nextTheme;
-    wave.style.setProperty("--wave-origin-x", `${originX}px`);
-    wave.style.setProperty("--wave-origin-y", `${originY}px`);
-    wave.style.setProperty("--wave-radius", `${radius}`);
-    void wave.offsetWidth;
-    wave.classList.add(styles.waveActive);
-
-    window.setTimeout(() => {
-      applyTheme(nextTheme);
-      wave.classList.remove(styles.waveActive);
-      delete wave.dataset.targetTheme;
-      isTransitioningRef.current = false;
-    }, duration);
-  }
+    document.documentElement.dataset.theme = theme;
+    syncToggleState(buttonRef.current, theme);
+  }, []);
 
   function toggleTheme() {
     const button = buttonRef.current;
@@ -99,8 +112,8 @@ export function ThemeToggle() {
     ).matches;
     const transitionDocument = document as ViewTransitionDocument;
 
-    if (prefersReducedMotion) {
-      applyTheme(nextTheme);
+    if (prefersReducedMotion || !transitionDocument.startViewTransition) {
+      applyTheme(nextTheme, button);
       return;
     }
 
@@ -114,13 +127,8 @@ export function ThemeToggle() {
 
     isTransitioningRef.current = true;
 
-    if (!transitionDocument.startViewTransition) {
-      runFallbackWave(nextTheme, originX, originY, radius);
-      return;
-    }
-
     const transition = transitionDocument.startViewTransition(() => {
-      applyTheme(nextTheme);
+      applyTheme(nextTheme, button);
     });
 
     void transition.ready
@@ -138,6 +146,7 @@ export function ThemeToggle() {
               `circle(0px at ${originX}px ${originY}px)`,
               `circle(${radius}px at ${originX}px ${originY}px)`,
             ],
+            opacity: [0.88, 1],
           },
           options,
         );
@@ -157,26 +166,25 @@ export function ThemeToggle() {
   }
 
   return (
-    <>
-      <button
-        ref={buttonRef}
-        className={styles.toggle}
-        type="button"
-        aria-label="Toggle color theme"
-        title="Toggle color theme"
-        onClick={toggleTheme}
-      >
-        <span className={styles.iconFrame} aria-hidden="true">
-          <svg className={`${styles.icon} ${styles.sun}`} viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="3.25" />
-            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.28 5.28l1.42 1.42M17.3 17.3l1.42 1.42M18.72 5.28 17.3 6.7M6.7 17.3l-1.42 1.42" />
-          </svg>
-          <svg className={`${styles.icon} ${styles.moon}`} viewBox="0 0 24 24">
-            <path d="M19.3 15.15A8.2 8.2 0 0 1 8.85 4.7 8.2 8.2 0 1 0 19.3 15.15Z" />
-          </svg>
-        </span>
-      </button>
-      <span ref={waveRef} className={styles.wave} aria-hidden="true" />
-    </>
+    <button
+      ref={buttonRef}
+      className={styles.toggle}
+      type="button"
+      role="switch"
+      aria-label="Dark mode"
+      aria-checked="false"
+      title="Switch color theme"
+      onClick={toggleTheme}
+    >
+      <span className={styles.iconFrame} aria-hidden="true">
+        <svg className={`${styles.icon} ${styles.sun}`} viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3.25" />
+          <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.28 5.28l1.42 1.42M17.3 17.3l1.42 1.42M18.72 5.28 17.3 6.7M6.7 17.3l-1.42 1.42" />
+        </svg>
+        <svg className={`${styles.icon} ${styles.moon}`} viewBox="0 0 24 24">
+          <path d="M19.3 15.15A8.2 8.2 0 0 1 8.85 4.7 8.2 8.2 0 1 0 19.3 15.15Z" />
+        </svg>
+      </span>
+    </button>
   );
 }

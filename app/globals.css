@@ -31,6 +31,10 @@ body {
   color: var(--foreground);
 }
 
+::view-transition {
+  pointer-events: none;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;

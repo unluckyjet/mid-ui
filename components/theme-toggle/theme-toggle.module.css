@@ -11,7 +11,9 @@
   background: rgb(255 255 255 / 72%);
   box-shadow: 0 1px 0 rgb(255 255 255 / 70%) inset;
   backdrop-filter: blur(8px);
+  -webkit-tap-highlight-color: transparent;
   cursor: pointer;
+  touch-action: manipulation;
   transition:
     color var(--duration-fast) var(--ease-in-out),
     background-color var(--duration-fast) var(--ease-in-out),
@@ -63,33 +65,6 @@
   transform: rotate(-45deg) scale(0.55);
 }
 
-.wave {
-  position: fixed;
-  top: var(--wave-origin-y, 0);
-  left: var(--wave-origin-x, 0);
-  z-index: 9999;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0);
-}
-
-.wave[data-target-theme="dark"] {
-  background: #0b0b0a;
-}
-
-.wave[data-target-theme="light"] {
-  background: #fbfbfa;
-}
-
-.waveActive {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(var(--wave-radius));
-  transition: transform var(--theme-wave-duration) var(--ease-smooth-out);
-}
-
 :global(html[data-theme="dark"]) .toggle {
   border-color: rgb(244 244 239 / 18%);
   color: #f4f4ef;
@@ -109,8 +84,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .toggle,
-  .icon,
-  .waveActive {
+  .icon {
     transition: none;
   }
 }
