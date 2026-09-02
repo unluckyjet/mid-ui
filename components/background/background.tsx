@@ -12,6 +12,7 @@ export function Background({ children, className }: BackgroundProps) {
 
   return (
     <div className={classNames} data-mid-ui="background">
+      <span className={styles.aurora} aria-hidden="true" />
       {children}
     </div>
   );
