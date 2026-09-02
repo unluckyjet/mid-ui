@@ -12,11 +12,7 @@ export default function Home() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <div className={styles.identity}>
-          <h1 className={`${bowlbyOne.className} ${styles.title}`}>Mid UI</h1>
-          <span className={styles.divider} aria-hidden="true" />
-          <p className={styles.description}>UI components, built from scratch.</p>
-        </div>
+        <h1 className={`${bowlbyOne.className} ${styles.title}`}>Mid UI</h1>
       </header>
     </main>
   );
