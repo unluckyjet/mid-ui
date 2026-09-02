@@ -98,11 +98,30 @@ export function ThemeToggle() {
 
   useLayoutEffect(() => {
     const theme = resolveTheme();
+    const root = document.documentElement;
 
-    document.documentElement.dataset.theme = theme;
+    function syncFromDocument() {
+      const currentTheme = root.dataset.theme;
+
+      if (isTheme(currentTheme)) {
+        syncToggleState(buttonRef.current, currentTheme);
+      }
+    }
+
+    root.dataset.theme = theme;
     syncToggleState(buttonRef.current, theme);
 
+    const themeObserver = new MutationObserver(syncFromDocument);
+
+    themeObserver.observe(root, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+    window.addEventListener(THEME_CHANGE_EVENT, syncFromDocument);
+
     return () => {
+      themeObserver.disconnect();
+      window.removeEventListener(THEME_CHANGE_EVENT, syncFromDocument);
       waveAnimationRef.current?.cancel();
       waveAnimationRef.current = null;
       isTransitioningRef.current = false;
@@ -201,14 +220,19 @@ export function ThemeToggle() {
       title="Switch color theme"
       onClick={toggleTheme}
     >
-      <span className={styles.iconFrame} aria-hidden="true">
-        <svg className={`${styles.icon} ${styles.sun}`} viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="3.25" />
-          <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.28 5.28l1.42 1.42M17.3 17.3l1.42 1.42M18.72 5.28 17.3 6.7M6.7 17.3l-1.42 1.42" />
-        </svg>
-        <svg className={`${styles.icon} ${styles.moon}`} viewBox="0 0 24 24">
-          <path d="M19.3 15.15A8.2 8.2 0 0 1 8.85 4.7 8.2 8.2 0 1 0 19.3 15.15Z" />
-        </svg>
+      <span className={styles.dial} aria-hidden="true">
+        <span className={styles.orbit}>
+          <span className={styles.satellite} />
+        </span>
+        <span className={styles.iconFrame}>
+          <svg className={`${styles.icon} ${styles.sun}`} viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="3.15" />
+            <path d="M12 2.75v2.1M12 19.15v2.1M2.75 12h2.1M19.15 12h2.1M5.46 5.46l1.48 1.48M17.06 17.06l1.48 1.48M18.54 5.46l-1.48 1.48M6.94 17.06l-1.48 1.48" />
+          </svg>
+          <svg className={`${styles.icon} ${styles.moon}`} viewBox="0 0 24 24">
+            <path d="M19.15 15.32A8 8 0 0 1 8.68 4.85a8.16 8.16 0 1 0 10.47 10.47Z" />
+          </svg>
+        </span>
       </span>
     </button>
   );
