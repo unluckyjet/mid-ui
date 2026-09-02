@@ -220,19 +220,19 @@ export function ThemeToggle() {
       title="Switch color theme"
       onClick={toggleTheme}
     >
-      <span className={styles.dial} aria-hidden="true">
-        <span className={styles.orbit}>
-          <span className={styles.satellite} />
-        </span>
-        <span className={styles.iconFrame}>
-          <svg className={`${styles.icon} ${styles.sun}`} viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="3.15" />
-            <path d="M12 2.75v2.1M12 19.15v2.1M2.75 12h2.1M19.15 12h2.1M5.46 5.46l1.48 1.48M17.06 17.06l1.48 1.48M18.54 5.46l-1.48 1.48M6.94 17.06l-1.48 1.48" />
-          </svg>
-          <svg className={`${styles.icon} ${styles.moon}`} viewBox="0 0 24 24">
-            <path d="M19.15 15.32A8 8 0 0 1 8.68 4.85a8.16 8.16 0 1 0 10.47 10.47Z" />
-          </svg>
-        </span>
+      <span className={styles.sky} aria-hidden="true">
+        <span className={styles.dayMark} />
+        <span className={styles.stars} />
+        <span className={styles.horizon} />
+      </span>
+      <span className={styles.lens} aria-hidden="true">
+        <svg className={`${styles.glyph} ${styles.sun}`} viewBox="0 0 20 20">
+          <circle cx="10" cy="10" r="2.7" />
+          <path d="M10 3.1v1.3M10 15.6v1.3M3.1 10h1.3M15.6 10h1.3M5.12 5.12l.92.92M13.96 13.96l.92.92M14.88 5.12l-.92.92M6.04 13.96l-.92.92" />
+        </svg>
+        <svg className={`${styles.glyph} ${styles.moon}`} viewBox="0 0 20 20">
+          <path d="M14.82 12.42A5.72 5.72 0 0 1 7.58 5.18a5.84 5.84 0 1 0 7.24 7.24Z" />
+        </svg>
       </span>
     </button>
   );
