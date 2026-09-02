@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react";
-import { AuroraCanvas } from "./aurora-canvas";
+import { Aurora } from "../aurora";
 import styles from "./background.module.css";
 
 type BackgroundProps = Readonly<
@@ -13,9 +13,7 @@ export function Background({ children, className }: BackgroundProps) {
 
   return (
     <div className={classNames} data-mid-ui="background">
-      <span className={styles.aurora} aria-hidden="true">
-        <AuroraCanvas />
-      </span>
+      <Aurora className={styles.aurora} />
       {children}
     </div>
   );
