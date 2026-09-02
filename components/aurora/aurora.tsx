@@ -26,9 +26,9 @@ type Fold = Readonly<{
 }>;
 
 const DEFAULT_LIGHT_COLORS: AuroraColorSet = [
-  "#8ce8bd",
-  "#a7d5df",
-  "#aa9af4",
+  "#42d996",
+  "#75bccc",
+  "#8c73e8",
 ];
 const DEFAULT_DARK_COLORS: AuroraColorSet = [
   "#24c77e",
@@ -171,6 +171,9 @@ export function Aurora({
     function buildCurtain(time: number) {
       const path = new Path2D();
       const movingCenter = 0.48 + Math.sin(time * 0.09 + 0.8) * 0.16;
+      const themeReach = darkMode
+        ? safeVerticalReach
+        : safeVerticalReach - 0.08;
 
       path.moveTo(0, 0);
       path.lineTo(width, 0);
@@ -190,7 +193,7 @@ export function Aurora({
           0.011;
         const y =
           height *
-          (safeVerticalReach +
+          (themeReach +
             shallowParabola +
             longWave +
             crossWave +
@@ -276,7 +279,7 @@ export function Aurora({
       gradient.addColorStop(0.44, palette[1]);
       gradient.addColorStop(1, palette[2]);
       activeContext.clearRect(0, 0, width, height);
-      activeContext.globalAlpha = safeIntensity * (darkMode ? 0.82 : 0.64);
+      activeContext.globalAlpha = safeIntensity * (darkMode ? 0.82 : 0.78);
       activeContext.globalCompositeOperation = "source-over";
       activeContext.fillStyle = gradient;
       activeContext.fill(curtain);
@@ -304,6 +307,26 @@ export function Aurora({
       );
       FOLDS.forEach((fold) => drawFold(time, fold));
       activeContext.restore();
+
+      if (!darkMode) {
+        const lightMask = activeContext.createLinearGradient(
+          0,
+          0,
+          0,
+          height,
+        );
+
+        lightMask.addColorStop(0, "rgb(255 255 255 / 8%)");
+        lightMask.addColorStop(0.28, "rgb(255 255 255 / 20%)");
+        lightMask.addColorStop(0.52, "rgb(255 255 255 / 82%)");
+        lightMask.addColorStop(0.72, "rgb(255 255 255 / 100%)");
+        lightMask.addColorStop(1, "rgb(255 255 255 / 0%)");
+        activeContext.globalAlpha = 1;
+        activeContext.globalCompositeOperation = "destination-in";
+        activeContext.fillStyle = lightMask;
+        activeContext.fillRect(0, 0, width, height);
+      }
+
       activeContext.globalAlpha = 1;
       activeContext.globalCompositeOperation = "source-over";
     }
