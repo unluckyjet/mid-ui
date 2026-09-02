@@ -83,7 +83,7 @@ function readWaveEasing() {
   return (
     getComputedStyle(document.documentElement)
       .getPropertyValue("--theme-wave-easing")
-      .trim() || "cubic-bezier(0.45, 0, 0.55, 1)"
+      .trim() || "cubic-bezier(0.4, 0, 1, 1)"
   );
 }
 
@@ -155,7 +155,6 @@ export function ThemeToggle() {
               `circle(0px at ${originX}px ${originY}px)`,
               `circle(${radius}px at ${originX}px ${originY}px)`,
             ],
-            opacity: [0.88, 1],
           },
           options,
         );
