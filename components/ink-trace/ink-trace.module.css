@@ -1,0 +1,93 @@
+.root {
+  --ink-trace-outline: #252b29;
+  --ink-trace-outline-glow: transparent;
+  --ink-trace-fill-a: #173e52;
+  --ink-trace-fill-b: #1d6b70;
+  --ink-trace-fill-c: #2b7b65;
+  position: relative;
+  width: 100%;
+  min-height: 12rem;
+  display: grid;
+  place-items: center;
+  container-type: inline-size;
+  isolation: isolate;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.visualGroup {
+  transform-origin: 0 0;
+}
+
+.outlineText,
+.fillText {
+  font-family: inherit;
+  font-size: 220px;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-rendering: geometricPrecision;
+}
+
+.outlineText {
+  fill: transparent;
+  stroke: var(--ink-trace-outline);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3.2;
+  paint-order: stroke;
+  filter: drop-shadow(0 0 0.01px var(--ink-trace-outline-glow));
+}
+
+.fillText {
+  stroke: none;
+}
+
+.fillStart {
+  stop-color: var(--ink-trace-fill-a);
+}
+
+.fillMiddle {
+  stop-color: var(--ink-trace-fill-b);
+}
+
+.fillEnd {
+  stop-color: var(--ink-trace-fill-c);
+}
+
+.pool {
+  fill: #fff;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.semantic {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+:global(html[data-theme="dark"]) .root {
+  --ink-trace-outline: #a99cf0;
+  --ink-trace-outline-glow: rgb(150 131 255 / 52%);
+  --ink-trace-fill-a: #f5f0e8;
+  --ink-trace-fill-b: #dfece0;
+  --ink-trace-fill-c: #95d4bc;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .outlineText,
+  .fillText,
+  .pool {
+    animation: none;
+  }
+}
