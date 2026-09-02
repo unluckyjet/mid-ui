@@ -1,14 +1,14 @@
 .page {
   min-height: 100svh;
-  padding: clamp(2.25rem, 4vw, 3.5rem) 1.5rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
 }
 
 .title {
   margin: 0;
   color: #000;
-  font-size: clamp(3.25rem, 7.5vw, 6.25rem);
+  font-size: clamp(2.75rem, 6.5vw, 5.5rem);
   font-weight: 400;
   letter-spacing: -0.035em;
   line-height: 0.88;
-  text-align: center;
+  text-align: left;
 }
