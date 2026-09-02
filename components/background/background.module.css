@@ -1,0 +1,40 @@
+.background {
+  --background-base: #fbfbfa;
+  --background-dot: rgb(22 22 20 / 16%);
+
+  position: relative;
+  min-height: 100svh;
+  isolation: isolate;
+  background: var(--background-base);
+}
+
+.background::before,
+.background::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+}
+
+.background::before {
+  background-image: radial-gradient(
+    circle,
+    var(--background-dot) 0.75px,
+    transparent 0.85px
+  );
+  background-position: -1px -1px;
+  background-size: 22px 22px;
+  mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 72%) 58%, transparent 100%);
+}
+
+.background::after {
+  background:
+    radial-gradient(
+      circle at 10% 7%,
+      rgb(255 255 255 / 98%) 0,
+      rgb(255 255 255 / 78%) 11rem,
+      transparent 32rem
+    ),
+    linear-gradient(to bottom, transparent 68%, var(--background-base) 100%);
+}
