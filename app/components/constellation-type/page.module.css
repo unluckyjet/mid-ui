@@ -1,0 +1,115 @@
+.page {
+  --page-ink: #22282d;
+  --page-muted: #626b70;
+  min-height: 100svh;
+  overflow-x: hidden;
+  color: var(--page-ink);
+  background:
+    linear-gradient(rgb(52 61 58 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(52 61 58 / 4%) 1px, transparent 1px),
+    radial-gradient(circle at 78% 5%, rgb(111 121 178 / 10%), transparent 31rem),
+    #f3f1e9;
+  background-size: 3rem 3rem, 3rem 3rem, auto, auto;
+  transition:
+    color var(--duration-fast) var(--ease-in-out),
+    background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.header {
+  width: min(100% - 2rem, 88rem);
+  min-height: 4.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-inline: auto;
+}
+
+.brand {
+  color: inherit;
+  font-size: 0.82rem;
+  letter-spacing: -0.025em;
+  text-decoration: none;
+}
+
+.brand:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+.intro {
+  width: min(100% - 2rem, 88rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 30rem);
+  align-items: end;
+  gap: 2rem;
+  margin: clamp(3.5rem, 8vw, 7rem) auto clamp(2.4rem, 5vw, 4.5rem);
+}
+
+.eyebrow,
+.description {
+  margin: 0;
+}
+
+.eyebrow {
+  grid-column: 1 / -1;
+  color: #666e68;
+  font-size: 0.68rem;
+  font-weight: 720;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.intro h1 {
+  max-width: 11ch;
+  margin: 0;
+  font-size: clamp(3.2rem, 8vw, 7.6rem);
+  font-weight: 560;
+  letter-spacing: -0.08em;
+  line-height: 0.82;
+}
+
+.description {
+  max-width: 40ch;
+  color: var(--page-muted);
+  font-size: clamp(0.96rem, 1.4vw, 1.12rem);
+  line-height: 1.58;
+}
+
+.specimen {
+  width: min(100% - 2rem, 88rem);
+  margin: 0 auto;
+  padding-bottom: clamp(3rem, 7vw, 6rem);
+}
+
+:global(html[data-theme="dark"]) .page {
+  --page-ink: #eff1f4;
+  --page-muted: #aab1b8;
+  background:
+    linear-gradient(rgb(213 221 229 / 3.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(213 221 229 / 3.5%) 1px, transparent 1px),
+    radial-gradient(circle at 78% 5%, rgb(111 126 214 / 15%), transparent 32rem),
+    #090c12;
+  background-size: 3rem 3rem, 3rem 3rem, auto, auto;
+}
+
+:global(html[data-theme="dark"]) .eyebrow {
+  color: #aab3aa;
+}
+
+@media (max-width: 760px) {
+  .intro {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  .eyebrow {
+    grid-column: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    transition: none;
+  }
+}
