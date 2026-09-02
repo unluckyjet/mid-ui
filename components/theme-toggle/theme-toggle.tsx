@@ -73,7 +73,7 @@ function readWaveDuration() {
   const duration = Number.parseFloat(value);
 
   if (!Number.isFinite(duration)) {
-    return 650;
+    return 500;
   }
 
   return value.endsWith("ms") ? duration : duration * 1000;
@@ -82,20 +82,27 @@ function readWaveDuration() {
 function readWaveEasing() {
   return (
     getComputedStyle(document.documentElement)
-      .getPropertyValue("--ease-smooth-out")
-      .trim() || "cubic-bezier(0.22, 1, 0.36, 1)"
+      .getPropertyValue("--theme-wave-easing")
+      .trim() || "cubic-bezier(0.45, 0, 0.55, 1)"
   );
 }
 
 export function ThemeToggle() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isTransitioningRef = useRef(false);
+  const waveAnimationRef = useRef<Animation | null>(null);
 
   useLayoutEffect(() => {
     const theme = resolveTheme();
 
     document.documentElement.dataset.theme = theme;
     syncToggleState(buttonRef.current, theme);
+
+    return () => {
+      waveAnimationRef.current?.cancel();
+      waveAnimationRef.current = null;
+      isTransitioningRef.current = false;
+    };
   }, []);
 
   function toggleTheme() {
@@ -126,6 +133,8 @@ export function ThemeToggle() {
     );
 
     isTransitioningRef.current = true;
+    waveAnimationRef.current?.cancel();
+    waveAnimationRef.current = null;
 
     const transition = transitionDocument.startViewTransition(() => {
       applyTheme(nextTheme, button);
@@ -136,11 +145,11 @@ export function ThemeToggle() {
         const options: ViewTransitionAnimationOptions = {
           duration: readWaveDuration(),
           easing: readWaveEasing(),
-          fill: "both",
+          fill: "none",
           pseudoElement: "::view-transition-new(root)",
         };
 
-        root.animate(
+        waveAnimationRef.current = root.animate(
           {
             clipPath: [
               `circle(0px at ${originX}px ${originY}px)`,
@@ -155,13 +164,15 @@ export function ThemeToggle() {
         // The theme has already been applied; no recovery is needed.
       });
 
+    const finishTransition = () => {
+      waveAnimationRef.current?.cancel();
+      waveAnimationRef.current = null;
+      isTransitioningRef.current = false;
+    };
+
     void transition.finished.then(
-      () => {
-        isTransitioningRef.current = false;
-      },
-      () => {
-        isTransitioningRef.current = false;
-      },
+      finishTransition,
+      finishTransition,
     );
   }
 

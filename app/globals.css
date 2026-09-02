@@ -5,7 +5,8 @@
   --duration-fast: 250ms;
   --ease-in-out: ease-in-out;
   --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --theme-wave-duration: 650ms;
+  --theme-wave-duration: 500ms;
+  --theme-wave-easing: cubic-bezier(0.45, 0, 0.55, 1);
 }
 
 html[data-theme="dark"] {
