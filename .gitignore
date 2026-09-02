@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/.pnpm-store/
 /.pnp
 .pnp.*
 .yarn/*
@@ -18,6 +19,9 @@
 # next.js
 /.next/
 /out/
+
+# generated Next.js agent guidance
+/AGENTS.md
 
 # production
 /build

@@ -1,22 +1,14 @@
 .page {
-  min-height: 100svh;
-  padding-inline: clamp(1rem, 2.5vw, 2rem);
+  min-block-size: 100svh;
+  padding: 1.5rem clamp(1rem, 2.5vw, 2rem);
+  background: #ffffff;
 }
 
-.header {
-  min-height: 4rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.title {
+.wordmark {
   margin: 0;
-  color: var(--foreground);
-  flex: none;
+  color: #090909;
   font-size: clamp(1.05rem, 1.6vw, 1.25rem);
   font-weight: 400;
   letter-spacing: -0.025em;
   line-height: 1;
-  text-align: left;
 }

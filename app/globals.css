@@ -1,18 +1,5 @@
 :root {
   color-scheme: light;
-  --foreground: #090909;
-  --page-background: #f8f9f5;
-  --duration-fast: 250ms;
-  --ease-in-out: ease-in-out;
-  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --theme-wave-duration: 500ms;
-  --theme-wave-easing: cubic-bezier(0.4, 0, 1, 1);
-}
-
-html[data-theme="dark"] {
-  color-scheme: dark;
-  --foreground: #f4f4ef;
-  --page-background: #080b10;
 }
 
 *,
@@ -28,35 +15,6 @@ body {
 }
 
 body {
-  background: var(--page-background);
-  color: var(--foreground);
-}
-
-::view-transition {
-  pointer-events: none;
-}
-
-::view-transition-image-pair(root) {
-  isolation: auto;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(root) {
-  z-index: 1;
-}
-
-::view-transition-new(root) {
-  z-index: 2;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --duration-fast: 0ms;
-    --theme-wave-duration: 0ms;
-  }
+  background: #ffffff;
+  color: #090909;
 }
