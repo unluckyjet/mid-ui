@@ -1,0 +1,110 @@
+.page {
+  min-height: 100svh;
+  padding: 0 clamp(1rem, 2.5vw, 2rem) 3rem;
+  color: #101714;
+  background:
+    radial-gradient(circle at 20% 8%, rgb(207 240 229 / 74%), transparent 28rem),
+    #f4f3ec;
+  transition:
+    color var(--duration-fast) var(--ease-in-out),
+    background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.header {
+  min-height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  color: inherit;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.intro {
+  width: min(45rem, 100%);
+  margin: clamp(3.5rem, 9vw, 7.5rem) auto 0;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: #426057;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.intro h1 {
+  margin: 0;
+  font-size: clamp(2.7rem, 8vw, 6.5rem);
+  font-weight: 650;
+  letter-spacing: -0.075em;
+  line-height: 0.95;
+}
+
+.description {
+  width: min(34rem, 100%);
+  margin: 1.35rem auto 0;
+  color: #4c5752;
+  font-size: clamp(0.95rem, 1.5vw, 1.08rem);
+  line-height: 1.6;
+}
+
+.specimen {
+  width: min(90rem, calc(100vw - 2rem));
+  margin: clamp(2rem, 6vw, 5rem) auto 0;
+  padding: clamp(1rem, 2vw, 1.75rem) 0 0;
+  overflow: hidden;
+  border: 1px solid rgb(16 23 20 / 11%);
+  border-radius: clamp(1.25rem, 3vw, 2.5rem);
+  background: rgb(255 255 255 / 48%);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 75%) inset,
+    0 24px 70px rgb(41 72 62 / 9%);
+}
+
+:global(html[data-theme="dark"]) .page {
+  color: #f4f3e8;
+  background:
+    radial-gradient(circle at 20% 8%, rgb(22 77 72 / 42%), transparent 30rem),
+    #080c12;
+}
+
+:global(html[data-theme="dark"]) .eyebrow {
+  color: #8eb8ad;
+}
+
+:global(html[data-theme="dark"]) .description {
+  color: #9ca7a3;
+}
+
+:global(html[data-theme="dark"]) .specimen {
+  border-color: rgb(235 239 255 / 11%);
+  background: rgb(9 16 25 / 58%);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 5%) inset,
+    0 28px 80px rgb(0 0 0 / 30%);
+}
+
+@media (max-width: 620px) {
+  .intro {
+    margin-top: 2.5rem;
+  }
+
+  .specimen {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    transition: none;
+  }
+}
