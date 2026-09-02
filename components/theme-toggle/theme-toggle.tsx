@@ -55,6 +55,7 @@ function syncToggleState(button: HTMLButtonElement | null, theme: Theme) {
   const targetTheme = theme === "dark" ? "light" : "dark";
 
   button.setAttribute("aria-checked", String(theme === "dark"));
+  button.dataset.theme = theme;
   button.title = `Switch to ${targetTheme} theme`;
 }
 
@@ -217,22 +218,27 @@ export function ThemeToggle() {
       role="switch"
       aria-label="Dark mode"
       aria-checked="false"
-      title="Switch color theme"
+      title="Switch to dark theme"
       onClick={toggleTheme}
     >
-      <span className={styles.sky} aria-hidden="true">
-        <span className={styles.dayMark} />
-        <span className={styles.stars} />
-        <span className={styles.horizon} />
-      </span>
-      <span className={styles.lens} aria-hidden="true">
-        <svg className={`${styles.glyph} ${styles.sun}`} viewBox="0 0 20 20">
-          <circle cx="10" cy="10" r="2.7" />
-          <path d="M10 3.1v1.3M10 15.6v1.3M3.1 10h1.3M15.6 10h1.3M5.12 5.12l.92.92M13.96 13.96l.92.92M14.88 5.12l-.92.92M6.04 13.96l-.92.92" />
-        </svg>
-        <svg className={`${styles.glyph} ${styles.moon}`} viewBox="0 0 20 20">
-          <path d="M14.82 12.42A5.72 5.72 0 0 1 7.58 5.18a5.84 5.84 0 1 0 7.24 7.24Z" />
-        </svg>
+      <span className={styles.dial} aria-hidden="true">
+        <span className={styles.ticks} />
+        <span className={styles.orbit}>
+          <span className={styles.satellite} />
+        </span>
+        <span className={styles.celestial}>
+          <svg className={styles.glyph} viewBox="0 0 24 24">
+            <g className={styles.sun}>
+              <circle cx="12" cy="12" r="3.15" />
+              <path d="M12 4.1v1.55M12 18.35v1.55M4.1 12h1.55M18.35 12h1.55M6.42 6.42l1.1 1.1M16.48 16.48l1.1 1.1M17.58 6.42l-1.1 1.1M7.52 16.48l-1.1 1.1" />
+            </g>
+            <path
+              className={styles.moon}
+              d="M16.88 14.58A6.26 6.26 0 0 1 9.42 7.12a6.55 6.55 0 1 0 7.46 7.46Z"
+            />
+          </svg>
+          <span className={styles.star} />
+        </span>
       </span>
     </button>
   );

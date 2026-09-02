@@ -11,12 +11,14 @@ test("exposes the active theme and target action", async ({ page }) => {
 
   await expect(toggle).toHaveAttribute("aria-checked", "false");
   await expect(toggle).toHaveAccessibleName("Dark mode");
+  await expect(toggle).toHaveAttribute("data-theme", "light");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 
   await toggle.click();
 
   await expect(toggle).toHaveAttribute("aria-checked", "true");
   await expect(toggle).toHaveAccessibleName("Dark mode");
+  await expect(toggle).toHaveAttribute("data-theme", "dark");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 });
 

@@ -1,24 +1,28 @@
 .toggle {
-  --toggle-edge: rgb(17 24 20 / 16%);
-  --toggle-sky: #eef1e8;
-  --toggle-sky-deep: #dfe6da;
-  --toggle-lens: #fbfaf2;
-  --toggle-ink: #263229;
+  --toggle-shell: #f6f5ee;
+  --toggle-shell-edge: rgb(21 26 22 / 19%);
+  --toggle-shell-highlight: rgb(255 255 255 / 88%);
+  --toggle-face: #18201a;
+  --toggle-face-edge: rgb(4 9 6 / 42%);
+  --toggle-glyph: #f2c65d;
+  --toggle-orbit: rgb(89 101 91 / 38%);
+  --toggle-satellite: #a37725;
   position: relative;
-  width: 2.75rem;
-  height: 1.75rem;
-  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
   flex: none;
+  place-items: center;
   padding: 0;
-  overflow: hidden;
   appearance: none;
-  border: 1px solid var(--toggle-edge);
-  border-radius: 999px;
-  color: var(--toggle-ink);
-  background: var(--toggle-sky);
+  border: 1px solid var(--toggle-shell-edge);
+  border-radius: 50%;
+  color: var(--toggle-glyph);
+  background: var(--toggle-shell);
   box-shadow:
-    0 1px 0 rgb(255 255 255 / 76%) inset,
-    0 5px 14px rgb(25 40 31 / 9%);
+    0 1px 0 var(--toggle-shell-highlight) inset,
+    0 0 0 1px rgb(255 255 255 / 28%),
+    0 0.38rem 1rem rgb(30 41 33 / 11%);
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   isolation: isolate;
@@ -31,98 +35,90 @@
 }
 
 .toggle:hover {
-  border-color: rgb(17 24 20 / 29%);
+  border-color: rgb(21 26 22 / 34%);
   box-shadow:
-    0 1px 0 rgb(255 255 255 / 88%) inset,
-    0 7px 18px rgb(25 40 31 / 14%);
-  transform: translateY(-1px);
+    0 1px 0 var(--toggle-shell-highlight) inset,
+    0 0 0 1px rgb(255 255 255 / 36%),
+    0 0.58rem 1.3rem rgb(30 41 33 / 16%);
+  transform: translateY(-1px) rotate(-2deg);
 }
 
 .toggle:active {
-  transform: translateY(0) scale(0.96);
+  transform: translateY(0) rotate(0) scale(0.94);
 }
 
 .toggle:focus-visible {
-  outline: 2px solid #1b251e;
+  outline: 2px solid #202a22;
   outline-offset: 3px;
 }
 
-.sky {
+.dial {
+  position: absolute;
+  inset: 0.23rem;
+  display: grid;
+  place-items: center;
+  border-radius: inherit;
+}
+
+.ticks {
   position: absolute;
   inset: 0;
-  overflow: hidden;
   border-radius: inherit;
-  background: linear-gradient(118deg, var(--toggle-sky) 15%, var(--toggle-sky-deep));
-  transition: background var(--duration-fast) var(--ease-in-out);
-}
-
-.dayMark {
-  position: absolute;
-  top: 0.42rem;
-  right: 0.47rem;
-  width: 0.2rem;
-  height: 0.2rem;
-  border-radius: 50%;
-  background: #c6a545;
-  box-shadow:
-    -0.38rem 0.18rem 0 -0.045rem rgb(198 165 69 / 58%),
-    -0.08rem 0.54rem 0 -0.055rem rgb(198 165 69 / 38%);
+  opacity: 0.78;
+  background: repeating-conic-gradient(
+    from -2deg,
+    var(--toggle-orbit) 0deg 2deg,
+    transparent 2deg 45deg
+  );
+  -webkit-mask: radial-gradient(circle, transparent 62%, #000 63% 72%, transparent 73%);
+  mask: radial-gradient(circle, transparent 62%, #000 63% 72%, transparent 73%);
   transition:
     opacity var(--duration-fast) var(--ease-in-out),
     transform var(--duration-fast) var(--ease-smooth-out);
 }
 
-.stars {
+.orbit {
   position: absolute;
-  top: 0.43rem;
-  left: 0.53rem;
-  width: 0.16rem;
-  height: 0.16rem;
+  inset: 0.18rem;
+  border: 1px solid var(--toggle-orbit);
+  border-right-color: transparent;
+  border-left-color: transparent;
   border-radius: 50%;
-  opacity: 0;
-  background: #c7cfff;
-  box-shadow:
-    0.43rem 0.26rem 0 -0.04rem #9ba9d9,
-    0.12rem 0.69rem 0 -0.045rem #d7dcff,
-    0.68rem 0.76rem 0 -0.055rem #899bcf;
-  transform: translateY(0.18rem);
-  transition:
-    opacity var(--duration-fast) var(--ease-in-out),
-    transform var(--duration-fast) var(--ease-smooth-out);
-}
-
-.horizon {
-  position: absolute;
-  right: -0.3rem;
-  bottom: -0.55rem;
-  width: 2.45rem;
-  height: 1.15rem;
-  border: 1px solid rgb(56 79 64 / 14%);
-  border-radius: 50% 50% 0 0;
-  background: rgb(174 191 176 / 24%);
-  transform: rotate(-6deg);
+  transform: rotate(-33deg);
   transition:
     border-color var(--duration-fast) var(--ease-in-out),
-    background-color var(--duration-fast) var(--ease-in-out),
     transform var(--duration-fast) var(--ease-smooth-out);
 }
 
-.lens {
+.satellite {
   position: absolute;
-  top: 0.18rem;
-  left: 0.18rem;
-  z-index: 1;
-  width: 1.27rem;
-  height: 1.27rem;
+  top: -0.12rem;
+  left: 50%;
+  width: 0.24rem;
+  height: 0.24rem;
+  border: 1px solid var(--toggle-shell);
+  border-radius: 50%;
+  background: var(--toggle-satellite);
+  box-shadow: 0 0 0 1px rgb(48 52 48 / 12%);
+  transform: translateX(-50%);
+  transition:
+    border-color var(--duration-fast) var(--ease-in-out),
+    background-color var(--duration-fast) var(--ease-in-out);
+}
+
+.celestial {
+  position: relative;
+  width: 1.22rem;
+  height: 1.22rem;
   display: grid;
   place-items: center;
   overflow: hidden;
-  border: 1px solid rgb(24 35 27 / 14%);
+  border: 1px solid var(--toggle-face-edge);
   border-radius: 50%;
-  background: var(--toggle-lens);
+  background: var(--toggle-face);
   box-shadow:
-    0 1px 0 rgb(255 255 255 / 90%) inset,
-    0 2px 6px rgb(38 52 41 / 23%);
+    0 1px 0 rgb(255 255 255 / 13%) inset,
+    0 0.18rem 0.36rem rgb(14 21 16 / 27%);
   transition:
     border-color var(--duration-fast) var(--ease-in-out),
     background-color var(--duration-fast) var(--ease-in-out),
@@ -131,14 +127,20 @@
 }
 
 .glyph {
-  position: absolute;
-  width: 0.93rem;
-  height: 0.93rem;
+  width: 1rem;
+  height: 1rem;
+  overflow: visible;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 1.35;
+  stroke-width: 1.45;
+}
+
+.sun,
+.moon {
+  transform-box: fill-box;
+  transform-origin: center;
   transition:
     opacity var(--duration-fast) var(--ease-in-out),
     transform var(--duration-fast) var(--ease-smooth-out);
@@ -151,73 +153,92 @@
 
 .moon {
   opacity: 0;
-  transform: rotate(-55deg) scale(0.66);
+  transform: rotate(-52deg) scale(0.62);
 }
 
-.toggle[aria-checked="true"] {
-  --toggle-edge: rgb(211 218 255 / 19%);
-  --toggle-sky: #121724;
-  --toggle-sky-deep: #080b12;
-  --toggle-lens: #dfe4f2;
-  --toggle-ink: #161c29;
-  box-shadow:
-    0 1px 0 rgb(255 255 255 / 7%) inset,
-    0 6px 17px rgb(0 0 0 / 30%);
-}
-
-.toggle[aria-checked="true"]:hover {
-  border-color: rgb(211 218 255 / 33%);
-  box-shadow:
-    0 1px 0 rgb(255 255 255 / 9%) inset,
-    0 8px 20px rgb(0 0 0 / 39%);
-}
-
-.toggle[aria-checked="true"]:focus-visible {
-  outline-color: #eef0fa;
-}
-
-.toggle[aria-checked="true"] .dayMark {
+.star {
+  position: absolute;
+  top: 0.21rem;
+  right: 0.24rem;
+  width: 0.12rem;
+  height: 0.12rem;
+  border-radius: 50%;
   opacity: 0;
-  transform: translateY(-0.22rem);
+  background: currentColor;
+  box-shadow: -0.2rem 0.18rem 0 -0.035rem currentColor;
+  transform: translateY(0.2rem) scale(0.5);
+  transition:
+    opacity var(--duration-fast) var(--ease-in-out),
+    transform var(--duration-fast) var(--ease-smooth-out);
 }
 
-.toggle[aria-checked="true"] .stars {
-  opacity: 1;
-  transform: translateY(0);
+.toggle[data-theme="dark"] {
+  --toggle-shell: #111722;
+  --toggle-shell-edge: rgb(208 218 245 / 20%);
+  --toggle-shell-highlight: rgb(255 255 255 / 8%);
+  --toggle-face: #e7e9e2;
+  --toggle-face-edge: rgb(255 255 255 / 46%);
+  --toggle-glyph: #273248;
+  --toggle-orbit: rgb(159 174 211 / 44%);
+  --toggle-satellite: #cbd4f4;
+  box-shadow:
+    0 1px 0 var(--toggle-shell-highlight) inset,
+    0 0 0 1px rgb(4 8 15 / 38%),
+    0 0.45rem 1.2rem rgb(0 0 0 / 32%);
 }
 
-.toggle[aria-checked="true"] .horizon {
-  border-color: rgb(153 167 225 / 14%);
-  background: rgb(62 74 116 / 18%);
-  transform: translateX(-1.2rem) rotate(7deg);
+.toggle[data-theme="dark"]:hover {
+  border-color: rgb(208 218 245 / 38%);
+  box-shadow:
+    0 1px 0 var(--toggle-shell-highlight) inset,
+    0 0 0 1px rgb(4 8 15 / 48%),
+    0 0.65rem 1.45rem rgb(0 0 0 / 42%);
 }
 
-.toggle[aria-checked="true"] .lens {
-  border-color: rgb(255 255 255 / 50%);
+.toggle[data-theme="dark"]:focus-visible {
+  outline-color: #edf0f8;
+}
+
+.toggle[data-theme="dark"] .ticks {
+  opacity: 0.96;
+  transform: rotate(22.5deg);
+}
+
+.toggle[data-theme="dark"] .orbit {
+  transform: rotate(147deg);
+}
+
+.toggle[data-theme="dark"] .celestial {
   box-shadow:
     0 1px 0 rgb(255 255 255 / 82%) inset,
-    0 2px 8px rgb(0 0 0 / 46%);
-  transform: translateX(1.12rem) rotate(180deg);
+    0 0.2rem 0.42rem rgb(0 0 0 / 42%);
+  transform: rotate(180deg);
 }
 
-.toggle[aria-checked="true"] .sun {
+.toggle[data-theme="dark"] .sun {
   opacity: 0;
-  transform: rotate(70deg) scale(0.64);
+  transform: rotate(62deg) scale(0.62);
 }
 
-.toggle[aria-checked="true"] .moon {
+.toggle[data-theme="dark"] .moon {
   opacity: 1;
   transform: rotate(180deg) scale(1);
 }
 
+.toggle[data-theme="dark"] .star {
+  opacity: 0.82;
+  transform: translateY(0) scale(1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .toggle,
-  .sky,
-  .dayMark,
-  .stars,
-  .horizon,
-  .lens,
-  .glyph {
+  .ticks,
+  .orbit,
+  .satellite,
+  .celestial,
+  .sun,
+  .moon,
+  .star {
     transition: none;
   }
 }
