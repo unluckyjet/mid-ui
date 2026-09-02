@@ -7,11 +7,12 @@
   min-height: 4rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .title {
   margin: 0;
-  color: #000;
+  color: var(--foreground);
   flex: none;
   font-size: clamp(1.05rem, 1.6vw, 1.25rem);
   font-weight: 400;

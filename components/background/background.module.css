@@ -1,6 +1,8 @@
 .background {
   --background-base: #fbfbfa;
   --background-dot: rgb(22 22 20 / 16%);
+  --background-halo-inner: rgb(255 255 255 / 98%);
+  --background-halo-middle: rgb(255 255 255 / 78%);
 
   position: relative;
   min-height: 100svh;
@@ -25,16 +27,28 @@
   );
   background-position: -1px -1px;
   background-size: 22px 22px;
-  mask-image: linear-gradient(to bottom, #000 0%, rgb(0 0 0 / 72%) 58%, transparent 100%);
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    rgb(0 0 0 / 72%) 58%,
+    transparent 100%
+  );
 }
 
 .background::after {
   background:
     radial-gradient(
       circle at 10% 7%,
-      rgb(255 255 255 / 98%) 0,
-      rgb(255 255 255 / 78%) 11rem,
+      var(--background-halo-inner) 0,
+      var(--background-halo-middle) 11rem,
       transparent 32rem
     ),
     linear-gradient(to bottom, transparent 68%, var(--background-base) 100%);
+}
+
+:global(html[data-theme="dark"]) .background {
+  --background-base: #0b0b0a;
+  --background-dot: rgb(244 244 239 / 17%);
+  --background-halo-inner: rgb(11 11 10 / 98%);
+  --background-halo-middle: rgb(11 11 10 / 78%);
 }

@@ -15,3 +15,9 @@ in-scope changes using Conventional Commits and push the current branch to its
 configured `origin` upstream. Do not push when verification fails, secrets or
 unrelated changes would be included, the push would overwrite remote history,
 or the user explicitly asks to keep the work local.
+
+## Theme parity
+
+Every new or modified visual component must include a verified light-mode and
+dark-mode variant. Treat dark-mode parity as a required acceptance criterion,
+not a follow-up enhancement.

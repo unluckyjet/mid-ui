@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import { Background } from "../components/background/background";
+import { ThemeToggle } from "../components/theme-toggle/theme-toggle";
 import styles from "./page.module.css";
 
 const bowlbyOne = localFont({
@@ -15,6 +16,7 @@ export default function Home() {
       <main className={styles.page}>
         <header className={styles.header}>
           <h1 className={`${bowlbyOne.className} ${styles.title}`}>Mid UI</h1>
+          <ThemeToggle />
         </header>
       </main>
     </Background>

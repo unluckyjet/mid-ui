@@ -1,0 +1,116 @@
+.toggle {
+  width: 2.125rem;
+  height: 2.125rem;
+  display: grid;
+  place-items: center;
+  flex: none;
+  padding: 0;
+  border: 1px solid rgb(9 9 9 / 14%);
+  border-radius: 50%;
+  color: #11110f;
+  background: rgb(255 255 255 / 72%);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 70%) inset;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--ease-in-out),
+    background-color var(--duration-fast) var(--ease-in-out),
+    border-color var(--duration-fast) var(--ease-in-out),
+    transform var(--duration-fast) var(--ease-smooth-out);
+}
+
+.toggle:hover {
+  transform: scale(1.06);
+}
+
+.toggle:active {
+  transform: scale(0.94);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.iconFrame {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+}
+
+.icon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.65;
+  transition:
+    opacity var(--duration-fast) var(--ease-in-out),
+    transform var(--duration-fast) var(--ease-in-out);
+}
+
+.sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.moon {
+  opacity: 0;
+  transform: rotate(-45deg) scale(0.55);
+}
+
+.wave {
+  position: fixed;
+  top: var(--wave-origin-y, 0);
+  left: var(--wave-origin-x, 0);
+  z-index: 9999;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+.wave[data-target-theme="dark"] {
+  background: #0b0b0a;
+}
+
+.wave[data-target-theme="light"] {
+  background: #fbfbfa;
+}
+
+.waveActive {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(var(--wave-radius));
+  transition: transform var(--theme-wave-duration) var(--ease-smooth-out);
+}
+
+:global(html[data-theme="dark"]) .toggle {
+  border-color: rgb(244 244 239 / 18%);
+  color: #f4f4ef;
+  background: rgb(28 28 25 / 72%);
+  box-shadow: 0 1px 0 rgb(255 255 255 / 8%) inset;
+}
+
+:global(html[data-theme="dark"]) .sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.55);
+}
+
+:global(html[data-theme="dark"]) .moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle,
+  .icon,
+  .waveActive {
+    transition: none;
+  }
+}
